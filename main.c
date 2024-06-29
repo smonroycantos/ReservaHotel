@@ -58,7 +58,7 @@ int main (int argc, char *argv[]) {
             break;
         case 3:
             buscarReservaPorCedula(&numReserva,reservas);
-            imprimirReserva(&numReserva,reservas,habitaciones,precios);
+            imprimirReserva(&numReserva,reservas,habitaciones,precios,numHabitacion);
             break;
         case 4:
             buscarReservaPorCedula(&numReserva,reservas);

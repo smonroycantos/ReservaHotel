@@ -127,7 +127,7 @@ void buscarReservaPorCedula(int *numReserva,int reservas[][4]){
     }
 }
 
-void imprimirReserva(int *numReserva,int reservas[][4],char habitaciones[][3][40],double precios[]){
+void imprimirReserva(int *numReserva,int reservas[][4],char habitaciones[][3][40],double precios[],int numHabitacion){
     //printf("%d\n",reservas[*numReserva][3]);
     char e[40];
     if (*numReserva==-1)
@@ -142,7 +142,7 @@ void imprimirReserva(int *numReserva,int reservas[][4],char habitaciones[][3][40
         {
             strcpy(e,"Si");
         }
-        printf("Cedula: %d\nNumero de habitacion: %d\nDuracion de su estadia (en dias): %d\nCancelado: %s\n",reservas[*numReserva][0],reservas[*numReserva][1],reservas[*numReserva][2],e);
+        printf("Cedula: %d\nNumero de habitacion: %d\nTipo de habitacion: %s\nDuracion de su estadia (en dias): %d\nCancelado: %s\n",reservas[*numReserva][0],reservas[*numReserva][1],habitaciones[numHabitacion-1][1],reservas[*numReserva][2],e);
     }
 }
 

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "funciones.h"
 #include <string.h>
 
@@ -75,7 +76,7 @@ void buscarHotel(int *numHabitacion,char habitaciones[][3][40],double precios[])
     }
 }
 
-void realizarReserva(int numHabitacion,char habitaciones[][3][40],char clientes[][2][40],int reservas[][4],int *numClientes){
+void realizarReserva(int numHabitacion,char habitaciones[][3][40],char clientes[][2][40],int reservas[][4],int *numClientes, bool *reservaRealizada){
     int x=0,x1=0;
     if (numHabitacion==-1){
         printf("Busque primero una habitacion, ingrese 1 en el menu principal\n");
@@ -103,12 +104,13 @@ void realizarReserva(int numHabitacion,char habitaciones[][3][40],char clientes[
             {
                 strcpy(clientes[*numClientes][1],c);
                 printf("Ingrese el nombre del cliente que realiza la reserva : \n");
-                scanf("%s",&clientes[*numClientes][0]);
+                scanf("%s",clientes[*numClientes][0]);
                 printf("De cuantos dias va a ser la estadia en el hotel : \n");
                 scanf("%d",&reservas[*numClientes][2]);
                 reservas[*numClientes][0]=atoi(clientes[*numClientes][1]);
                 reservas[*numClientes][1]=numHabitacion;
                 *numClientes+=1;
+                *reservaRealizada=true;
             }
         }
     }
@@ -127,12 +129,12 @@ void buscarReservaPorCedula(int *numReserva,int reservas[][4]){
     }
 }
 
-void imprimirReserva(int *numReserva,int reservas[][4],char habitaciones[][3][40],double precios[],int numHabitacion){
+void imprimirReserva(int *numReserva,int reservas[][4],char habitaciones[][3][40],double precios[]){
     //printf("%d\n",reservas[*numReserva][3]);
     char e[40];
     if (*numReserva==-1)
     {
-        printf("Aun no se ha realizado ninguna reserva\n");
+        printf("No se ha encontrado ese numero de cedula\n");
     } else {
         if (reservas[*numReserva][3]==0)
         {
@@ -142,16 +144,36 @@ void imprimirReserva(int *numReserva,int reservas[][4],char habitaciones[][3][40
         {
             strcpy(e,"Si");
         }
-        printf("Cedula: %d\nNumero de habitacion: %d\nTipo de habitacion: %s\nDuracion de su estadia (en dias): %d\nCancelado: %s\n",reservas[*numReserva][0],reservas[*numReserva][1],habitaciones[numHabitacion-1][1],reservas[*numReserva][2],e);
+        printf("Cedula: %d\nNumero de habitacion: %d\nTipo de habitacion: %s\nDuracion de su estadia (en dias): %d\nPrecio: %.2f\nCancelado: %s\n",reservas[*numReserva][0],reservas[*numReserva][1],habitaciones[reservas[*numReserva][1]][1],reservas[*numReserva][2],precios[reservas[*numReserva][1]-1],e);
     }
 }
 
-void pagarReserva(int *numReserva,int reservas[][4],char habitaciones[][3][40],double precios[]){
+void pagarReserva(int *numReserva,int reservas[][4],char habitaciones[][3][40],double precios[], bool *reservaPagada){
     if (*numReserva==-1)
     {
         printf("Aun no se ha realizado ninguna reserva\n");
+    }else{
+        reservas[*numReserva][3]=1;
+        //printf("%d\n",reservas[*numReserva][3]);
+        printf("Reserva cancelada correctamente\n");
+        *reservaPagada=true;
     }
-    reservas[*numReserva][3]=1;
-    //printf("%d\n",reservas[*numReserva][3]);
-    printf("Reserva cancelada correctamente\n");
+    
 }
+
+/*void crearArchivos(FILE *fReservas, FILE *fClientes){
+
+    fReservas=fopen("reservas.txt","a+");
+    if (fReservas==NULL){
+        fReservas=fopen("reservas.txt","w");
+        fclose(fReservas);
+        fReservas=fopen("reservas.txt","a+");
+    }
+
+    fClientes=fopen("clientes.txt","a+");
+    if (fClientes==NULL){
+        fClientes=fopen("clientes.txt","w");
+        fclose(fClientes);
+        fClientes=fopen("clientes.txt","a+");
+    }
+}*/
